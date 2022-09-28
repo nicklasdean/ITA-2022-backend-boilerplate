@@ -11,6 +11,10 @@ app.use(cors({
   origin: '*'
 }));
 
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+});
+
 app.get('/data',(req,response) => {
   const connection = mysql.createConnection({
     host:process.env["DB.HOST"],
@@ -20,15 +24,16 @@ app.get('/data',(req,response) => {
     ssl: {
       "rejectUnauthorized":true
     }
-  });
+});
+//Change
+connection.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
 
-  connection.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-  });
+const sql = `SELECT * FROM spotify LIMIT 10`
 
-  const sql = `SELECT * FROM spotify LIMIT 10`
-  connection.query(sql, (error, results) => {
+connection.query(sql, (error, results) => {
     response.send(results);
     console.log(results);
   });

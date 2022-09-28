@@ -17,16 +17,16 @@ app.get('/', (req, res) => {
 
 app.get('/data',(req,response) => {
   const connection = mysql.createConnection({
-    host:process.env["DB.HOST"],
-    user:process.env["DB.USER"],
-    password:process.env["DB.PASS"],
-    dbname:process.env["DB.DBNAME"],
+    host:process.env["DB_HOST"],
+    user:process.env["DB_USER"],
+    password:process.env["DB_PASS"],
+    dbname:process.env["DB_NAME"],
     ssl: {
       "rejectUnauthorized":true
     }
 });
-//Change
-connection.connect(function(err) {
+
+  connection.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });

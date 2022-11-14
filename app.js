@@ -13,7 +13,7 @@ app.use(cors({
 }));
 
 app.get('/', (req, res) => {
-  res.send('Hello Worldasdæisdouhdsohuadsadspiads!')
+  res.send('Hello ITA!')
 });
 
 const connection = mysql.createConnection({

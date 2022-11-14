@@ -1,6 +1,5 @@
 const express = require('express');
 const http = require('http');
-const path = require('path');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
@@ -11,10 +10,6 @@ app.use(express.json());
 app.use(cors({
   origin: '*'
 }));
-
-app.get('/', (req, res) => {
-  res.send('Hello ITA!')
-});
 
 const connection = mysql.createConnection({
   host: process.env["DB_HOST"],
@@ -31,12 +26,26 @@ connection.connect(function(err) {
   console.log("Connected!");
 });
 
+//Hello World
+app.get('/', (req, res) => {
+  res.send('Hello ITA!')
+});
 
-app.get('/data',(req, response) => {
+//Getting 10 first songs
+app.get('/test',(req, response) => {
   const sql = `SELECT * FROM spotify LIMIT 10`;
   connection.query(sql, (err,rows) => {
     response.send(rows);
   });
+});
+
+//Get all by artist name
+app.get('/artist/:artist', (req, res) => {
+  const artistParameter = req.params.artist;
+  const sql = 'SELECT * FROM `spotify` WHERE `artist` = ?';
+  connection.execute(sql,[artistParameter], (err, results) => {
+    res.send(results);
+  })
 });
 
 server.listen(3000,(port) => {

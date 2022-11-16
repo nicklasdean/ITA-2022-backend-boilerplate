@@ -2,11 +2,13 @@ const express = require('express');
 const http = require('http');
 const mysql = require('mysql2');
 const cors = require('cors');
-const {response} = require("express");
 const app = express();
 const server = http.createServer(app);
+const {response} = require("express");
+const bodyParser = require('body-parser');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
   origin: '*'
@@ -49,10 +51,12 @@ app.get('/artist/:artistname', (req, res) => {
   })
 });
 
-app.post('/post', (req, res,) => {
-  const json = req;
-  console.log(json);
-  res.redirect(200,'/test');
+app.post('/song/create', (req, res,) => {
+  //TODO implement code that creates a song with sql
+  //For now - just a proof of concept
+  const name = req.body.name;
+  console.log(name)
+  res.sendStatus(200);
 });
 
 server.listen(3000,(port) => {

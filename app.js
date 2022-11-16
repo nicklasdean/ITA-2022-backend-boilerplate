@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const mysql = require('mysql2');
 const cors = require('cors');
+const {response} = require("express");
 const app = express();
 const server = http.createServer(app);
 
@@ -40,12 +41,18 @@ app.get('/test',(req, response) => {
 });
 
 //Get all by artist name
-app.get('/artist/:artist', (req, res) => {
-  const artistParameter = req.params.artist;
+app.get('/artist/:artistname', (req, res) => {
+  const artistParameter = req.params.artistname;
   const sql = 'SELECT * FROM `spotify` WHERE `artist` = ?';
   connection.execute(sql,[artistParameter], (err, results) => {
     res.send(results);
   })
+});
+
+app.post('/post', (req, res,) => {
+  const json = req;
+  console.log(json);
+  res.redirect(200,'/test');
 });
 
 server.listen(3000,(port) => {
